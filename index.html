@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevOps Lunch Wheel</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f7fa;
+            font-family: Arial, sans-serif;
+        }
+        canvas {
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="wheel" width="500" height="500"></canvas>
+    <button onclick="spinWheel()">Spin!</button>
+
+    <script>
+        const options = ["Trang", "Slab", "Blaze", "Secret Spot", "Sushi Bomb", "Red Taco", "Mo' Bettah's", "DP Cheesesteaks", "Harmon's", "Curry Pizza", "Chipotle", "McDonald's"];
+        const colors = ["#e67e22", "#2ecc71", "#3498db", "#9b59b6", "#f1c40f", "#e74c3c", "#1abc9c", "#34495e", "#95a5a6", "#d35400", "#c0392b", "#7f8c8d"];
+
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const startAngle = 0;
+        let spinAngle = 0;
+
+        function drawWheel() {
+            const arcSize = 2 * Math.PI / options.length;
+            for (let i = 0; i < options.length; i++) {
+                ctx.fillStyle = colors[i];
+                ctx.beginPath();
+                ctx.moveTo(250, 250);
+                ctx.arc(250, 250, 250, startAngle + i * arcSize, startAngle + (i + 1) * arcSize);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.save();
+                ctx.translate(250, 250);
+                ctx.rotate(startAngle + (i + 0.5) * arcSize);
+                ctx.fillStyle = "white";
+                ctx.textAlign = "right";
+                ctx.font = "bold 16px Arial";
+                ctx.fillText(options[i], 230, 5);
+                ctx.restore();
+            }
+        }
+
+        function spinWheel() {
+            const spinTime = Math.random() * 3 + 4;
+            const spinAngleEnd = spinAngle + Math.random() * 10 + 10;
+            const start = performance.now();
+
+            function animate(currentTime) {
+                const elapsed = (currentTime - start) / 1000;
+                if (elapsed < spinTime) {
+                    spinAngle += (spinAngleEnd - spinAngle) * 0.05;
+                    ctx.clearRect(0, 0, 500, 500);
+                    ctx.save();
+                    ctx.translate(250, 250);
+                    ctx.rotate(spinAngle);
+                    ctx.translate(-250, -250);
+                    drawWheel();
+                    ctx.restore();
+                    requestAnimationFrame(animate);
+                } else {
+                    const degrees = spinAngle * 180 / Math.PI + 90;
+                    const index = Math.floor((360 - (degrees % 360)) / (360 / options.length));
+                    alert("Lunch at: " + options[index]);
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        drawWheel();
+    </script>
+</body>
+</html>
