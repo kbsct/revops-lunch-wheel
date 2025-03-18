@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang=\"en\">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
     <title>RevOps Lunch Wheel</title>
     <style>
         body {
@@ -14,6 +14,7 @@
             margin: 0;
             background-color: #f5f7fa;
             font-family: Arial, sans-serif;
+            position: relative;
         }
         canvas {
             border-radius: 50%;
@@ -32,15 +33,25 @@
         button:hover {
             background-color: #45a049;
         }
+        .arrow {
+            position: absolute;
+            top: calc(50% - 260px);
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 30px solid #333;
+        }
     </style>
 </head>
 <body>
-    <canvas id="wheel" width="500" height="500"></canvas>
-    <button onclick="spinWheel()">Spin!</button>
+    <div class=\"arrow\"></div>
+    <canvas id=\"wheel\" width=\"500\" height=\"500\"></canvas>
+    <button onclick=\"spinWheel()\">Spin!</button>
 
     <script>
-        const options = ["Trang", "Slab", "Blaze", "Secret Spot", "Sushi Bomb", "Red Taco", "Mo' Bettah's", "DP Cheesesteaks", "Harmon's", "Curry Pizza", "Chipotle", "McDonald's"];
-        const colors = ["#e67e22", "#2ecc71", "#3498db", "#9b59b6", "#f1c40f", "#e74c3c", "#1abc9c", "#34495e", "#95a5a6", "#d35400", "#c0392b", "#7f8c8d"];
+        const options = [\"Trang\", \"Slab\", \"Blaze\", \"Secret Spot\", \"Sushi Bomb\", \"Red Taco\", \"Mo' Bettah's\", \"DP Cheesesteaks\", \"Harmon's\", \"Curry Pizza\", \"Chipotle\", \"McDonald's\"];
+        const colors = [\"#e67e22\", \"#2ecc71\", \"#3498db\", \"#9b59b6\", \"#f1c40f\", \"#e74c3c\", \"#1abc9c\", \"#34495e\", \"#95a5a6\", \"#d35400\", \"#c0392b\", \"#7f8c8d\"];
 
         const canvas = document.getElementById('wheel');
         const ctx = canvas.getContext('2d');
@@ -60,9 +71,9 @@
                 ctx.save();
                 ctx.translate(250, 250);
                 ctx.rotate(startAngle + (i + 0.5) * arcSize);
-                ctx.fillStyle = "white";
-                ctx.textAlign = "right";
-                ctx.font = "bold 16px Arial";
+                ctx.fillStyle = \"white\";
+                ctx.textAlign = \"right\";
+                ctx.font = \"bold 16px Arial\";
                 ctx.fillText(options[i], 230, 5);
                 ctx.restore();
             }
@@ -88,7 +99,7 @@
                 } else {
                     const degrees = spinAngle * 180 / Math.PI + 90;
                     const index = Math.floor((360 - (degrees % 360)) / (360 / options.length));
-                    alert("Lunch at: " + options[index]);
+                    alert(\"Lunch at: \" + options[index]);
                 }
             }
 
